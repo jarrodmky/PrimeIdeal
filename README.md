@@ -1,2 +1,2 @@
 # PrimeIdeal
-A low-level numeric computation library for C23
+A low-level numeric computation library using C17
