@@ -14,7 +14,7 @@ void output_text(cstring const message)
     fwrite(message, sizeof(char), strlen(message), stdout);
 }
 
-void output_number(long long number)
+void output_integer(integer number)
 {
     fprintf(stdout, "%lld", number);
 }

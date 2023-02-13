@@ -24,9 +24,9 @@ void output_test(test_case test)
             else
             {
                 output_text("FAILED! Expected: ");
-                output_number(expected_result);
+                output_integer(expected_result);
                 output_text(" Result: ");
-                output_number(run_result);
+                output_integer(run_result);
                 output_newline();
             }
         }

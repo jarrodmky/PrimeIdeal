@@ -1,4 +1,7 @@
+#pragma once
+
 #include "definitions.h"
+#include "pi_exports.h"
 
 typedef integer (*test_function)();
 
@@ -9,6 +12,6 @@ typedef struct
 }
 test_case;
 
-void output_test(test_case test);
+void PRIMEIDEAL_EXPORT output_test(test_case test);
 
-integer run_utility_test();
+integer PRIMEIDEAL_EXPORT run_utility_test();

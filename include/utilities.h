@@ -1,3 +1,5 @@
+#pragma once
+
 #include <assert.h>
 #include <stdalign.h>
 #include <stdbool.h>

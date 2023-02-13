@@ -1,5 +1,6 @@
 #include "output.h"
 #include "test_utils.h"
+#include "pi_exports.h"
 
 int main(int argc, char *argv[])
 {
