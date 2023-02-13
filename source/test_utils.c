@@ -13,21 +13,25 @@ void output_test(test_case test)
         integer expected_result = test.expected_result;
         if (expected_result == run_result)
         {
-            output_line("PASSED!");
+            output_text("Result: ");
+            output_integer(expected_result);
+            output_line(" - PASSED!");
         }
         else
         {
             if (0 == expected_result)
             {
-                output_line("POSSIBLY CORRECT");
+                output_text("Result: ");
+                output_integer(run_result);
+                output_line(" - NOT CONCLUSIVE");
             }
             else
             {
-                output_text("FAILED! Expected: ");
-                output_integer(expected_result);
-                output_text(" Result: ");
+                output_text("Result: ");
                 output_integer(run_result);
-                output_newline();
+                output_text(", Expected: ");
+                output_integer(expected_result);
+                output_line(" - FAILED!");
             }
         }
     }
