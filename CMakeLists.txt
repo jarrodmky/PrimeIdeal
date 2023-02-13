@@ -10,21 +10,19 @@ if( NOT DEFINED PI_BUILD_TESTS )
 set(PI_BUILD_TESTS 0)
 endif()
                   
-if( PI_BUILD_TESTS )
-
-set(PI_TEST_SOURCE "source/test_utils.c")
-
+if( ${PI_BUILD_TESTS} )
+set(PI_SOURCE_FILES source/output.c source/test_utils.c)
+set(PI_HEADER_FILES include/definitions.h include/output.h include/utilities.h include/test_utils.h)
 else()
-
-set(PI_TEST_SOURCE "")
-
+set(PI_SOURCE_FILES source/output.c)
+set(PI_HEADER_FILES include/definitions.h include/output.h include/utilities.h)
 endif()
 
-add_library(primeideal STATIC source/output.c ${PI_TEST_SOURCE})
+add_library(primeideal STATIC ${PI_SOURCE_FILES} ${PI_HEADER_FILES})
 target_include_directories(primeideal PUBLIC include)
 target_compile_features(primeideal PUBLIC c_std_17)
 
-if( PI_BUILD_TESTS )
+if( ${PI_BUILD_TESTS} )
 
 add_executable(test_runner testing/test_runner.c)
 target_include_directories(test_runner PUBLIC include)
