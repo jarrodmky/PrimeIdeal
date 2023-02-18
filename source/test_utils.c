@@ -67,22 +67,22 @@ integer run_utility_test()
 
         output_line("Testing int buffer...");
 
-        int_buffer new_buffer = make_int_buffer(0, 42);
+        int_buffer new_buffer = create_int_buffer(0, 42);
         assert(new_buffer.typed_array == NULL);
         assert(new_buffer.size == 0);
 
-        new_buffer = make_int_buffer(4, 42);
+        new_buffer = create_int_buffer(4, 42);
         assert(new_buffer.typed_array != NULL);
         assert(new_buffer.size == 4);
-        assert(get_int_from_buffer(new_buffer, 0) == 42);
-        assert(get_int_from_buffer(new_buffer, 1) == 42);
-        assert(get_int_from_buffer(new_buffer, 2) == 42);
-        assert(get_int_from_buffer(new_buffer, 3) == 42);
+        assert(buffer_get_int(new_buffer, 0) == 42);
+        assert(buffer_get_int(new_buffer, 1) == 42);
+        assert(buffer_get_int(new_buffer, 2) == 42);
+        assert(buffer_get_int(new_buffer, 3) == 42);
 
-        set_int_in_buffer(new_buffer, 2, 101);
-        assert(get_int_from_buffer(new_buffer, 2) == 101);
-        assert(get_int_from_buffer(new_buffer, 3) == 42);
-        assert(get_int_from_buffer(new_buffer, 1) == 42);
+        buffer_set_int(new_buffer, 2, 101);
+        assert(buffer_get_int(new_buffer, 2) == 101);
+        assert(buffer_get_int(new_buffer, 3) == 42);
+        assert(buffer_get_int(new_buffer, 1) == 42);
 
         destroy_int_buffer(&new_buffer);
         assert(new_buffer.typed_array == NULL);
@@ -91,66 +91,66 @@ integer run_utility_test()
         output_line("...passed!");
 
         output_line("Testing int stack...");
-        int_stack test_stack = make_int_stack();
+        int_stack test_stack = create_int_stack();
         assert(test_stack.buffer.typed_array != NULL);
         assert(test_stack.buffer.size != 0);
         assert(test_stack.height == 0);
 
-        push_int(&test_stack, 1);
-        push_int(&test_stack, 2);
+        stack_push_int(&test_stack, 1);
+        stack_push_int(&test_stack, 2);
         assert(test_stack.buffer.typed_array != NULL);
         assert(test_stack.buffer.size != 0);
         assert(test_stack.height == 2);
 
-        assert(pop_int(&test_stack) == 2);
-        assert(pop_int(&test_stack) == 1);
-        assert(int_stack_is_empty(test_stack));
+        assert(stack_pop_int(&test_stack) == 2);
+        assert(stack_pop_int(&test_stack) == 1);
+        assert(stack_is_empty_int(test_stack));
         assert(test_stack.height == 0);
 
-        push_int(&test_stack, 1);
-        push_int(&test_stack, 2);
-        push_int(&test_stack, 3);
-        push_int(&test_stack, 4);
-        push_int(&test_stack, 5);
-        push_int(&test_stack, 6);
-        push_int(&test_stack, 7);
+        stack_push_int(&test_stack, 1);
+        stack_push_int(&test_stack, 2);
+        stack_push_int(&test_stack, 3);
+        stack_push_int(&test_stack, 4);
+        stack_push_int(&test_stack, 5);
+        stack_push_int(&test_stack, 6);
+        stack_push_int(&test_stack, 7);
         assert(test_stack.height == 7);
 
-        assert(pop_int(&test_stack) == 7);
-        assert(pop_int(&test_stack) == 6);
+        assert(stack_pop_int(&test_stack) == 7);
+        assert(stack_pop_int(&test_stack) == 6);
         assert(test_stack.height == 5);
 
-        push_int(&test_stack, 8);
-        push_int(&test_stack, 9);
-        push_int(&test_stack, 10);
-        push_int(&test_stack, 11);
-        push_int(&test_stack, 12);
-        push_int(&test_stack, 13);
+        stack_push_int(&test_stack, 8);
+        stack_push_int(&test_stack, 9);
+        stack_push_int(&test_stack, 10);
+        stack_push_int(&test_stack, 11);
+        stack_push_int(&test_stack, 12);
+        stack_push_int(&test_stack, 13);
         assert(test_stack.height == 11);
 
-        assert(pop_int(&test_stack) == 13);
-        assert(pop_int(&test_stack) == 12);
-        assert(pop_int(&test_stack) == 11);
+        assert(stack_pop_int(&test_stack) == 13);
+        assert(stack_pop_int(&test_stack) == 12);
+        assert(stack_pop_int(&test_stack) == 11);
         assert(test_stack.height == 8);
 
-        push_int(&test_stack, 14);
-        push_int(&test_stack, 15);
-        push_int(&test_stack, 16);
-        push_int(&test_stack, 17);
+        stack_push_int(&test_stack, 14);
+        stack_push_int(&test_stack, 15);
+        stack_push_int(&test_stack, 16);
+        stack_push_int(&test_stack, 17);
         assert(test_stack.height == 12);
 
-        assert(pop_int(&test_stack) == 17);
-        assert(pop_int(&test_stack) == 16);
-        assert(pop_int(&test_stack) == 15);
-        assert(pop_int(&test_stack) == 14);
-        assert(pop_int(&test_stack) == 10);
-        assert(pop_int(&test_stack) == 9);
-        assert(pop_int(&test_stack) == 8);
-        assert(pop_int(&test_stack) == 5);
-        assert(pop_int(&test_stack) == 4);
-        assert(pop_int(&test_stack) == 3);
-        assert(pop_int(&test_stack) == 2);
-        assert(pop_int(&test_stack) == 1);
+        assert(stack_pop_int(&test_stack) == 17);
+        assert(stack_pop_int(&test_stack) == 16);
+        assert(stack_pop_int(&test_stack) == 15);
+        assert(stack_pop_int(&test_stack) == 14);
+        assert(stack_pop_int(&test_stack) == 10);
+        assert(stack_pop_int(&test_stack) == 9);
+        assert(stack_pop_int(&test_stack) == 8);
+        assert(stack_pop_int(&test_stack) == 5);
+        assert(stack_pop_int(&test_stack) == 4);
+        assert(stack_pop_int(&test_stack) == 3);
+        assert(stack_pop_int(&test_stack) == 2);
+        assert(stack_pop_int(&test_stack) == 1);
 
         destroy_int_stack(&test_stack);
         assert(test_stack.buffer.typed_array == NULL);
@@ -179,22 +179,22 @@ integer run_utility_test()
 
         output_line("Testing float buffer...");
 
-        float_buffer new_buffer = make_float_buffer(0, 42.0f);
+        float_buffer new_buffer = create_float_buffer(0, 42.0f);
         assert(new_buffer.typed_array == NULL);
         assert(new_buffer.size == 0);
 
-        new_buffer = make_float_buffer(4, 42.0f);
+        new_buffer = create_float_buffer(4, 42.0f);
         assert(new_buffer.typed_array != NULL);
         assert(new_buffer.size == 4);
-        assert(get_float_from_buffer(new_buffer, 0) == 42.0f);
-        assert(get_float_from_buffer(new_buffer, 1) == 42.0f);
-        assert(get_float_from_buffer(new_buffer, 2) == 42.0f);
-        assert(get_float_from_buffer(new_buffer, 3) == 42.0f);
+        assert(buffer_get_float(new_buffer, 0) == 42.0f);
+        assert(buffer_get_float(new_buffer, 1) == 42.0f);
+        assert(buffer_get_float(new_buffer, 2) == 42.0f);
+        assert(buffer_get_float(new_buffer, 3) == 42.0f);
 
-        set_float_in_buffer(new_buffer, 2, 101.0f);
-        assert(get_float_from_buffer(new_buffer, 2) == 101.0f);
-        assert(get_float_from_buffer(new_buffer, 3) == 42.0f);
-        assert(get_float_from_buffer(new_buffer, 1) == 42.0f);
+        buffer_set_float(new_buffer, 2, 101.0f);
+        assert(buffer_get_float(new_buffer, 2) == 101.0f);
+        assert(buffer_get_float(new_buffer, 3) == 42.0f);
+        assert(buffer_get_float(new_buffer, 1) == 42.0f);
 
         destroy_float_buffer(&new_buffer);
         assert(new_buffer.typed_array == NULL);
@@ -203,66 +203,66 @@ integer run_utility_test()
         output_line("...passed!");
 
         output_line("Testing float stack...");
-        float_stack test_stack = make_float_stack();
+        float_stack test_stack = create_float_stack();
         assert(test_stack.buffer.typed_array != NULL);
         assert(test_stack.buffer.size != 0);
         assert(test_stack.height == 0);
 
-        push_float(&test_stack, 1.0f);
-        push_float(&test_stack, 2.0f);
+        stack_push_float(&test_stack, 1.0f);
+        stack_push_float(&test_stack, 2.0f);
         assert(test_stack.buffer.typed_array != NULL);
         assert(test_stack.buffer.size != 0);
         assert(test_stack.height == 2);
 
-        assert(pop_float(&test_stack) == 2.0f);
-        assert(pop_float(&test_stack) == 1.0f);
-        assert(float_stack_is_empty(test_stack));
+        assert(stack_pop_float(&test_stack) == 2.0f);
+        assert(stack_pop_float(&test_stack) == 1.0f);
+        assert(stack_is_empty_float(test_stack));
         assert(test_stack.height == 0);
 
-        push_float(&test_stack, 1.0f);
-        push_float(&test_stack, 2.0f);
-        push_float(&test_stack, 3.0f);
-        push_float(&test_stack, 4.0f);
-        push_float(&test_stack, 5.0f);
-        push_float(&test_stack, 6.0f);
-        push_float(&test_stack, 7.0f);
+        stack_push_float(&test_stack, 1.0f);
+        stack_push_float(&test_stack, 2.0f);
+        stack_push_float(&test_stack, 3.0f);
+        stack_push_float(&test_stack, 4.0f);
+        stack_push_float(&test_stack, 5.0f);
+        stack_push_float(&test_stack, 6.0f);
+        stack_push_float(&test_stack, 7.0f);
         assert(test_stack.height == 7);
 
-        assert(pop_float(&test_stack) == 7.0f);
-        assert(pop_float(&test_stack) == 6.0f);
+        assert(stack_pop_float(&test_stack) == 7.0f);
+        assert(stack_pop_float(&test_stack) == 6.0f);
         assert(test_stack.height == 5);
 
-        push_float(&test_stack, 8.0f);
-        push_float(&test_stack, 9.0f);
-        push_float(&test_stack, 10.0f);
-        push_float(&test_stack, 11.0f);
-        push_float(&test_stack, 12.0f);
-        push_float(&test_stack, 13.0f);
+        stack_push_float(&test_stack, 8.0f);
+        stack_push_float(&test_stack, 9.0f);
+        stack_push_float(&test_stack, 10.0f);
+        stack_push_float(&test_stack, 11.0f);
+        stack_push_float(&test_stack, 12.0f);
+        stack_push_float(&test_stack, 13.0f);
         assert(test_stack.height == 11);
 
-        assert(pop_float(&test_stack) == 13.0f);
-        assert(pop_float(&test_stack) == 12.0f);
-        assert(pop_float(&test_stack) == 11.0f);
+        assert(stack_pop_float(&test_stack) == 13.0f);
+        assert(stack_pop_float(&test_stack) == 12.0f);
+        assert(stack_pop_float(&test_stack) == 11.0f);
         assert(test_stack.height == 8);
 
-        push_float(&test_stack, 14.0f);
-        push_float(&test_stack, 15.0f);
-        push_float(&test_stack, 16.0f);
-        push_float(&test_stack, 17.0f);
+        stack_push_float(&test_stack, 14.0f);
+        stack_push_float(&test_stack, 15.0f);
+        stack_push_float(&test_stack, 16.0f);
+        stack_push_float(&test_stack, 17.0f);
         assert(test_stack.height == 12);
 
-        assert(pop_float(&test_stack) == 17.0f);
-        assert(pop_float(&test_stack) == 16.0f);
-        assert(pop_float(&test_stack) == 15.0f);
-        assert(pop_float(&test_stack) == 14.0f);
-        assert(pop_float(&test_stack) == 10.0f);
-        assert(pop_float(&test_stack) == 9.0f);
-        assert(pop_float(&test_stack) == 8.0f);
-        assert(pop_float(&test_stack) == 5.0f);
-        assert(pop_float(&test_stack) == 4.0f);
-        assert(pop_float(&test_stack) == 3.0f);
-        assert(pop_float(&test_stack) == 2.0f);
-        assert(pop_float(&test_stack) == 1.0f);
+        assert(stack_pop_float(&test_stack) == 17.0f);
+        assert(stack_pop_float(&test_stack) == 16.0f);
+        assert(stack_pop_float(&test_stack) == 15.0f);
+        assert(stack_pop_float(&test_stack) == 14.0f);
+        assert(stack_pop_float(&test_stack) == 10.0f);
+        assert(stack_pop_float(&test_stack) == 9.0f);
+        assert(stack_pop_float(&test_stack) == 8.0f);
+        assert(stack_pop_float(&test_stack) == 5.0f);
+        assert(stack_pop_float(&test_stack) == 4.0f);
+        assert(stack_pop_float(&test_stack) == 3.0f);
+        assert(stack_pop_float(&test_stack) == 2.0f);
+        assert(stack_pop_float(&test_stack) == 1.0f);
 
         destroy_float_stack(&test_stack);
         assert(test_stack.buffer.typed_array == NULL);

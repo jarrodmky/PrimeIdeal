@@ -70,11 +70,9 @@ typedef struct \
     size_t size; \
 } gentype##_buffer; \
 \
-inline gentype##_buffer make_##gentype##_buffer(size_t element_count, gentype initial_value) \
+inline gentype##_buffer create_##gentype##_buffer(size_t element_count, gentype initial_value) \
 { \
-   gentype##_buffer new_buffer; \
-   new_buffer.typed_array=initialize_##gentype##_array(element_count, initial_value); \
-   new_buffer.size = element_count; \
+   gentype##_buffer new_buffer = {initialize_##gentype##_array(element_count, initial_value), element_count}; \
    return new_buffer; \
 } \
  \
@@ -84,15 +82,15 @@ inline void destroy_##gentype##_buffer(gentype##_buffer* buffer) \
     buffer->size = 0; \
 } \
 \
-inline gentype get_##gentype##_from_buffer(gentype##_buffer buffer, size_t index) \
+inline gentype buffer_get_##gentype(gentype##_buffer buffer, size_t index) \
 { \
-    assert(buffer.size > index); \
+    assert(index < buffer.size); \
     return buffer.typed_array[index]; \
 } \
 \
-inline void set_##gentype##_in_buffer(gentype##_buffer buffer, size_t index, gentype value) \
+inline void buffer_set_##gentype(gentype##_buffer buffer, size_t index, gentype value) \
 { \
-    assert(buffer.size > index); \
+    assert(index < buffer.size); \
     buffer.typed_array[index] = value; \
 }
 
@@ -104,11 +102,9 @@ typedef struct \
     size_t height; \
 } gentype##_stack; \
 \
-inline gentype##_stack make_##gentype##_stack() \
+inline gentype##_stack create_##gentype##_stack() \
 { \
-   gentype##_stack new_stack; \
-   new_stack.buffer=make_##gentype##_buffer(32, 0); \
-   new_stack.height = 0; \
+   gentype##_stack new_stack = {create_##gentype##_buffer(32, 0), 0}; \
    return new_stack; \
 } \
  \
@@ -118,24 +114,24 @@ inline void destroy_##gentype##_stack(gentype##_stack* stack) \
     stack->height = 0; \
 } \
 \
-inline bool gentype##_stack_is_empty(gentype##_stack stack) \
+inline bool stack_is_empty_##gentype(gentype##_stack stack) \
 { \
     return stack.height == 0; \
 } \
  \
-inline gentype pop_##gentype(gentype##_stack* stack) \
+inline gentype stack_pop_##gentype(gentype##_stack* stack) \
 { \
     assert(stack->height > 0); \
-    gentype popped = get_##gentype##_from_buffer(stack->buffer, --stack->height); \
+    gentype popped = buffer_get_##gentype(stack->buffer, --stack->height); \
     return popped; \
 } \
  \
-inline void push_##gentype(gentype##_stack* stack, gentype value) \
+inline void stack_push_##gentype(gentype##_stack* stack, gentype value) \
 { \
     if(stack->height == stack->buffer.size) \
     { \
         gentype##_buffer old_buffer = stack->buffer; \
-        stack->buffer = make_##gentype##_buffer(old_buffer.size * 2, 0); \
+        stack->buffer = create_##gentype##_buffer(old_buffer.size * 2, 0); \
         for(size_t index = 0; index < old_buffer.size; ++index) \
         { \
             stack->buffer.typed_array[index] = old_buffer.typed_array[index]; \
@@ -143,7 +139,7 @@ inline void push_##gentype(gentype##_stack* stack, gentype value) \
         destroy_##gentype##_buffer(&old_buffer); \
     } \
  \
-    set_##gentype##_in_buffer(stack->buffer, stack->height++, value); \
+    buffer_set_##gentype(stack->buffer, stack->height++, value); \
 }
 
 
